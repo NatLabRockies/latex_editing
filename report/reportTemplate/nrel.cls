@@ -25,11 +25,11 @@
 % print links in black
 \newboolean{blacklinks}
 \setboolean{blacklinks}{false}
-% Set flag to meet NREL RAAW requirements
+% Set flag to meet NREL Template requirements
 % true by default
 \newboolean{IsNREL}
 \setboolean{IsNREL}{true}
-% Set flag to meet EERE RAAW requirements
+% Set flag to meet EERE Template requirements
 \newboolean{IsEERE}
 \setboolean{IsEERE}{false}
 % Set flag for confidentiality statement
@@ -50,18 +50,18 @@
 	\setboolean{IsDraft}{true}
 	\typeout{Formatting as draft}
 	}
-% If EERE option is set, format as EERE RAAW
+% If EERE option is set, format as EERE Template
 \DeclareOption{EERE}{
 	\setboolean{IsEERE}{true}
 	\setboolean{IsNREL}{false}
 	\def\NREL@class{report}
-	\typeout{Using EERE report RAAW}
+	\typeout{Using EERE report Template}
 }
 % NREL is assumed to be true by default
 % unless switched off by EERE flag
 \ifthenelse{\boolean{IsNREL}}{ 
 	\def\NREL@class{report}
-	\typeout{Using NREL report RAAW}
+	\typeout{Using NREL report Template}
 }{}
 % If tagged option is set, format as tagged pdf
 \DeclareOption{tagged}{
