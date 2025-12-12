@@ -1,17 +1,17 @@
-% NREL letter class file
-% Formal letter with NREL letterhead/logo
+% NLR letter class file
+% Formal letter with NLR letterhead/logo
 % 05 September 2017
 % Nicholas Hamilton, nicholas.hamilton(at)nrel.gov
 
 % --- Class structure: identification part
 % ---
-\ProvidesClass{NRELletter}
+\ProvidesClass{NLRletter}
 \typeout{ }
-\typeout{NRELletter.cls -- v1.1, April 2025}
-\typeout{Formats letter documents according to the NREL style guide}
-\typeout{For support, visit the NREL LaTeX teams page.}
+\typeout{NLRletter.cls -- v1.2, December 2025}
+\typeout{Formats letter documents according to the NLR style guide}
+\typeout{For support, visit the NLR LaTeX teams page.}
 \typeout{ }
-\typeout{Author: Nicholas Hamilton, nicholas.hamilton@nrel.gov}
+\typeout{Author: Nicholas Hamilton, nicholas.hamilton@nlr.gov}
 
 \typeout{ }
 
@@ -92,7 +92,7 @@
 % colours
 \RequirePackage{color}
 \RequirePackage{xcolor}
-\definecolor{nrelblue}{RGB}{0, 121, 193}
+\definecolor{nlrblue}{RGB}{0, 121, 193}
 
 % set languages
 \RequirePackage[american]{babel}
@@ -169,7 +169,7 @@ natbib=true,bibencoding=inputenc,sorting=nyt,doi=true, maxbibnames = 10, maxcite
 \lefthyphenmin=3
 
 % Don't hyphenate the months (or any proper noun---other proper nouns must be addressed in the tex file
-\hyphenation{January February April July August September October December Department Energy National Renewable Laboratory Washington Colorado Standard}
+\hyphenation{January February April July August September October December Department Energy National Laboratory Rockies Washington Colorado Standard}
 
 % Enumerate list environment -- change the default numbering to match our style
 \renewcommand{\theenumi}{\arabic{enumi}}
@@ -219,7 +219,7 @@ natbib=true,bibencoding=inputenc,sorting=nyt,doi=true, maxbibnames = 10, maxcite
 %    %	DEFINE CUSTOM COMMANDS
 %    %----------------------------------------------------------------------------------------
 %    
-\newcommand{\nrelblue}[1]{{\textcolor{nrelblue}{#1}}}
+\newcommand{\nlrblue}[1]{{\textcolor{nlrblue}{#1}}}
 
 %    \newcommand{\logo}[1]{\renewcommand{\logo}{#1}}
 %    
@@ -254,7 +254,7 @@ natbib=true,bibencoding=inputenc,sorting=nyt,doi=true, maxbibnames = 10, maxcite
     	\vskip -0.1\textheight~\\ % Position of the large header text in relation to the institution logo, increase to move down, decrease to move up
     	\Large\hspace{0.2\textwidth}\headerlineone\hfill ~\\[0.006\textheight] % First line of institution name, adjust hspace if your logo is wide
     	\hspace{0.2\textwidth}\headerlinetwo\hfill \normalsize % Second line of institution name, adjust hspace if your logo is wide
-    	\makebox[0ex][r]{\textbf{\nrelblue{\Who\Title}}}\hspace{0.01\textwidth} % Print author name and title with a little whitespace to the right
+    	\makebox[0ex][r]{\textbf{\nlrblue{\Who\Title}}}\hspace{0.01\textwidth} % Print author name and title with a little whitespace to the right
     	~\\[-0.01\textheight] % Reduce the whitespace above the horizontal rule
     	\hspace{0cm}\vhrulefill{1pt} \\ % Horizontal rule, adjust hspace if your logo is wide and \vhrulefill for the thickness of the rule
     	\authordetailsblock % Include the letter author's details on the right side of the page under the horizontal rule
@@ -278,10 +278,12 @@ natbib=true,bibencoding=inputenc,sorting=nyt,doi=true, maxbibnames = 10, maxcite
     \fancyhf{}
     \rhead{}
     \lhead{}
-    % \lfoot{\includegraphics{NREL_footer.png}}
-	\lfoot{\footnotesize\textbf{\sffamily{NREL is a national laboratory of the U.S. Department of Energy\\
-	Office of Energy Efficiency and Renewable Energy\\
-	Operated under Contract No. DE-AC36-08GO28308
+    % \lfoot{\includegraphics{NLR_footer.png}}
+    \lfoot{\footnotesize\textbf{\sffamily
+    National Laboratory of the Rockies is a national\\
+    laboratory of the U.S. Department of Energy\\
+    Office of Critical Minerals and Energy Innovation\\
+    Operated under Contract No. DE-AC36-08GO283
     }}}
     
     \renewcommand{\headrulewidth}{0pt}
@@ -306,9 +308,6 @@ natbib=true,bibencoding=inputenc,sorting=nyt,doi=true, maxbibnames = 10, maxcite
     		\fromsig % Prints the value of \signature{}, i.e. author name and title
 	}
 }
-
-}
-
 
 %% end of file
 
