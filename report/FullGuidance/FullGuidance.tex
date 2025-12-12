@@ -1,15 +1,16 @@
-\documentclass[]{nrel}
+\documentclass[]{nlr}
 
 \usepackage{lipsum}
+
 
 % -----------------------------------
 % DOCUMENT PROPERTIES
 % -----------------------------------
-\title{NREL Report---Full Guidance Document}
+\title{NLR Report---Full Guidance Document}
 
 \author{Nicholas Hamilton}
 \author{Chioke Harris}
-\affil{National Renewable Energy Laboratory}
+\affil{National Laboratory of the Rockies}
 \author{Author Four}
 \affil{Another affiliation}
 \author{Author Five}
@@ -27,15 +28,15 @@
 
 \frontmatter
 \chapter{Executive Summary}
-This document is a guide to writing documents for publication by NREL using the LaTeX document preparation system. LaTeX is not WYSIWYG and has different reviewing and editing tools compared to typical word processing software. For this reason special care has to be taken when preparing NREL documents in LaTeX.
+This document is a guide to writing documents for publication by NLR using the LaTeX document preparation system. LaTeX is not WYSIWYG and has different reviewing and editing tools compared to typical word processing software. For this reason special care has to be taken when preparing NLR documents in LaTeX.
 
 
-This document serves both as a guide to implementing NREL's style and formatting guidelines in LaTeX, and as a template. This document is intended for people with some familiarity with LaTeX.
+This document serves both as a guide to implementing NLR's style and formatting guidelines in LaTeX, and as a template. This document is intended for people with some familiarity with LaTeX.
 
 \chapter{Acknowledgments}
 Updates to this template are made by Nicholas Hamilton with support and style guidance from  Sheri Anstedt, Kimberly Austin, Deanna Cooke, and Chioke Harris.
 
-The original document and the NREL LaTeX class file were developed by staff at the National Wind Technology Center, including Andrew Platt, Andrew Clifton, Andrew Ning, Mike Lawson, and Paul Fleming. Alexsandra Lemke provided support relating to NREL communications. A first demonstration of an NREL class file was created by Chuck Booten from NREL's Electricity, Resources, and Building Systems Integration group, which inspired this effort. The class file and this template were developed as part of work on several NREL reports, journal articles, and conference publications.
+The original document and the NLR LaTeX class file were developed by staff at the National Wind Technology Center, including Andrew Platt, Andrew Clifton, Andrew Ning, Mike Lawson, and Paul Fleming. Alexsandra Lemke provided support relating to NLR communications. A first demonstration of an NLR class file was created by Chuck Booten from NLR's Electricity, Resources, and Building Systems Integration group, which inspired this effort. The class file and this template were developed as part of work on several NLR reports, journal articles, and conference publications.
 
 We thank members of the TeX -- LaTeX StackExchange site for useful suggestions concerning LaTeX and typography \citep{texstackexchange}.
 This report was typeset using the LaTeX typesetting system originally developed by Leslie Lamport, based on TeX created by Donald Knuth. It was revised in 2014 by A. Clifton, A. Platt, M. Dennis, P. Fleming, and M. Lawson. The class file and examples were revised again in 2021 by N. Hamilton.
@@ -44,7 +45,7 @@ This report was typeset using the LaTeX typesetting system originally developed 
 \chapter{List of Acronyms} %<--------- Uncomment this section if adding acronyms
 \begin{acronym}[ICANN]
     \acro  {DOE}  {Department of Energy}
-    \acro  {NREL}  {National Renewable Energy Laboratory}
+    \acro  {NLR}  {National Laboratory of the Rockies}
 \end{acronym}
 
 \mainmatter
@@ -56,7 +57,7 @@ This report was typeset using the LaTeX typesetting system originally developed 
 \chapter{Dummy chapter}
 \section{Creating Content}
 \subsection{Front, main, and back matter}
-NREL's convention is to have Roman numerals in the front matter, and then arabic numerals in the main matter of the document (after the tables of contents, figures and tables). Tables and figures in the front matter are also numbered differently (Table A, B, C, ...) than in the main matter (Table 1, 2, 3, ...).
+NLR's convention is to have Roman numerals in the front matter, and then arabic numerals in the main matter of the document (after the tables of contents, figures and tables). Tables and figures in the front matter are also numbered differently (Table A, B, C, ...) than in the main matter (Table 1, 2, 3, ...).
 
 This change in page and float numbering is implemented using the \begin{verbatim}\frontmatter\end{verbatim}, \begin{verbatim}\mainmatter\end{verbatim}, and \begin{verbatim}\backmatter\end{verbatim} commands at the start of these sections of the document:
 
@@ -80,15 +81,15 @@ This change in page and float numbering is implemented using the \begin{verbatim
 \label{sec:FileStructure}
 Your main file should be called \emph{main.tex}. This helps editors and coauthors identify where to start. Then, use \texttt{input} to import other files into your main file at compilation.
 
-For example, each of the chapters in this report is in separate files, called \emph{WhatIsLatex} (Chapter 1), \emph{NRELRequirements.tex} (Chapter 2), \emph{LatexAtNREL.tex} (Chapter 3), and so-on. In the example available on Github, they are stored in the \emph{files} directory. \emph{main.tex} then looks like this:
+For example, each of the chapters in this report is in separate files, called \emph{WhatIsLatex} (Chapter 1), \emph{NLRRequirements.tex} (Chapter 2), \emph{LatexAtNLR.tex} (Chapter 3), and so-on. In the example available on Github, they are stored in the \emph{files} directory. \emph{main.tex} then looks like this:
 
 \begin{lstlisting}
 ...
 \begin{document}
 % content
 \input{files/WhatIsLatex}
-\input{files/NRELRequirements}
-\input{files/LatexAtNREL}
+\input{files/NLRRequirements}
+\input{files/LatexAtNLR}
 ...
 \end{lstlisting}
 
@@ -98,11 +99,11 @@ For example, each of the chapters in this report is in separate files, called \e
         \begin{enumerate}
           \item Each new LaTeX document should be placed in it's own directory.
           \item Create a main LaTeX file that just contains the preamble, custom commands and uses \texttt{input} to call the content. See Section \ref{sec:FileStructure} for an example where each \texttt{chapter} is contained in its own file. In an article, each \texttt{section} could be contained in its own file.
-          \item Keep the number of packages used to a minimum. If authors feel that something is desperately missing, they can contact the maintainers of the \emph{nrel.cls} file. Not all packages can be used as they lack compatibility.
+          \item Keep the number of packages used to a minimum. If authors feel that something is desperately missing, they can contact the maintainers of the \emph{nlr.cls} file. Not all packages can be used as they lack compatibility.
         \end{enumerate}
   \item[Focus on content, not appearance.] Don't spend hours trying to adjust fonts, headers or spacing between lines.
         \begin{enumerate}
-          \item The document produced should meet NREL's requirements if it is compiled using \emph{nrel.cls}.
+          \item The document produced should meet NLR's requirements if it is compiled using \emph{nlr.cls}.
           \item Don't throw in lots of \texttt{clearpage}s or other commands to push material around. LaTeX is designed to handle that.
           \item Resist the temptation to add or subtract space, change lengths or do other things to modify the layout.
           \item Write!
@@ -115,13 +116,13 @@ For example, each of the chapters in this report is in separate files, called \e
 
 
 \lipsum[9]
-Advantages of \href{latex.nrel.gov}{latex.nrel.gov} include:
+Advantages of using the NLR \LaTeX template include:
 \begin{enumerate}
-  \item No need to maintain a local version of LaTeX
-  \item Everyone uses the same version of LaTeX
+  \item No need to maintain a local version of \LaTeX
+  \item Everyone uses the same version of \LaTeX
   \item Editors and reviewers can work in a user-friendly environment
   \item There is an always-on ``track changes'' feature
-  \item Secure hosting of documents within the NREL domain
+  \item Secure hosting of documents within the NLR domain
   \item Ability to download source documents for archiving
 \end{enumerate}
 
@@ -196,8 +197,8 @@ The \texttt{listings} package has been loaded. Note: this does not work if the `
 
 To change the syntax highlighting use \begin{verbatim}\lstset{language=[dialect]language,columns=fullflexible,keepspaces=true}\end{verbatim} before each listing where the language changes. For more details see the \texttt{lstlisting} documentation.
 
-\subsection{NREL-style bibliographies}
-NREL uses "Chicago A" style-references. The \emph{nrel.cls} file uses Biblatex to produce these references automatically.
+\subsection{NLR-style bibliographies}
+NLR uses "Chicago A" style-references. The \emph{nlr.cls} file uses Biblatex to produce these references automatically.
 
 To include a bibliography in the document give the bibliography file location in the preamble, and insert the bibliography at the appropriate location:
 
@@ -261,7 +262,7 @@ To include a bibliography in the document give the bibliography file location in
 
   \begin{table}[!h]
     \centering
-    \caption[Packages loaded by the NREL classes]{Packages loaded by the NREL classes.}
+    \caption[Packages loaded by the NLR classes]{Packages loaded by the NLR classes.}
     \label{Tab:Packages}
     \begin{tabular}{llp{0.6\textwidth}}
       \toprule
