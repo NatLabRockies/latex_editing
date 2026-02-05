@@ -456,7 +456,7 @@
 	\fancypagestyle{NLR}{%
 	\fancyhf{}
 	\renewcommand{\headrulewidth}{0pt}
-	\fancyfoot[C]{\thepage\\\vspace{1em} \fontsize{10pt}{10pt}\sffamily \textcolor{lightgray}{This report is available at no cost from the National Laboratory of the Rockies (NLR) at \href{www.nrel.gov/publications}{www.nrel.gov/publications}}}
+	\fancyfoot[C]{\thepage\\\vspace{1em} \fontsize{10pt}{10pt}\sffamily \textcolor{lightgray}{This report is available at no cost from the National Laboratory of the Rockies (NLR) at http://www.nlr.gov/publications.}}
 }
 	
 }
