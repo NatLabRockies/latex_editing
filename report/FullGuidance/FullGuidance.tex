@@ -31,6 +31,14 @@
 This document is a guide to writing documents for publication by NLR using the LaTeX document preparation system. LaTeX is not WYSIWYG and has different reviewing and editing tools compared to typical word processing software. For this reason special care has to be taken when preparing NLR documents in LaTeX.
 
 
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=\textwidth]{example-image-a}
+  \caption{Example figure for supplemental content.}
+  \label{fig:example-a}
+\end{figure}
+
+
 This document serves both as a guide to implementing NLR's style and formatting guidelines in LaTeX, and as a template. This document is intended for people with some familiarity with LaTeX.
 
 \chapter{Acknowledgments}
@@ -260,6 +268,13 @@ To include a bibliography in the document give the bibliography file location in
   \appchapter{Included packages}
   \lipsum[66]
 
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-a}
+    \caption{Example figure for supplemental content.}
+    \label{fig:example-a2232}
+  \end{figure}
+
   \begin{table}[!h]
     \centering
     \caption[Packages loaded by the NLR classes]{Packages loaded by the NLR classes.}
@@ -297,7 +312,14 @@ To include a bibliography in the document give the bibliography file location in
   \appchapter{Supplemental Information}
   \lipsum{77-82}
 
-  % \chapter{Even More Supplemental Information}
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-a}
+    \caption{Example figure for supplemental content.}
+    \label{fig:example-a222}
+  \end{figure}
+
+% \chapter{Even More Supplemental Information}
   % \label{app:B}
 
 \end{appendices}
