@@ -18,8 +18,9 @@
 % Create Options
 % -------------------------------------------------------------
 %% PDF properties
-\pdfinterwordspaceon
-\pdfminorversion=6
+% \pdfinterwordspaceon disabled -- causes text overlap with URW Helvetica (phv)
+% in pdfTeX 1.40.27 (TeX Live 2025), especially inside minipages and fancyhdr boxes.
+% TL2025's LaTeX Tagging Project provides better accessibility support.
 % for processing of conditional statements
 \RequirePackage{xifthen}
 % Mark as draft
@@ -287,7 +288,7 @@
 	\@startsection{subsection}{2}{\z@}
 	{-3.25ex \@plus -1ex \@minus -.2ex}
 	{0.25ex \@plus .2ex}
-	{\color{NLRblue}\sffamily\normalsize\bfseries\slshape}}
+	{\color{NLRblue}\sffamily\bfseries\slshape}}
 \renewcommand{\subsubsection}{%
 	\@startsection{subsubsection}{3}{\z@}
 	{-3.25ex \@plus -1ex \@minus -.2ex}
@@ -481,7 +482,7 @@
 	\fancypagestyle{NLR}{%
 	\fancyhf{}
 	\renewcommand{\headrulewidth}{0pt}
-	\fancyfoot[C]{\thepage\\\vspace{1em} \fontsize{10pt}{10pt}\sffamily \textcolor{lightgray}{This report is available at no cost from the National Laboratory of the Rockies (NLR) at http://www.nlr.gov/publications.}}
+	\fancyfoot[C]{\thepage\\\vspace{1em} \small\sffamily \textcolor{lightgray}{This report is available at no cost from the National Laboratory of the Rockies (NLR) at http://www.nlr.gov/publications.}}
 }
 	
 }
@@ -540,11 +541,11 @@
 	\null
 	\vskip 2em%
 	\begin{flushright}
-		\righthyphenmin=62 % prevents hyphens in title page
-		\fontfamily{phv}
-		\textbf{\huge{\@title}}
+		{\sffamily\bfseries\fontsize{25}{30}\selectfont
+		\@title}%
 		\vskip 1.5em%
-		\large{\@author}
+		{\sffamily\fontsize{12}{14}\selectfont
+		\@author}%
 		\vskip 1em%
 	\end{flushright}
 	\egroup

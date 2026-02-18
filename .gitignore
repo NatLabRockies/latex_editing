@@ -43,6 +43,7 @@
 *.xdy
 *.zip
 **/*.zip
+*.latexmkrc
 
 # Mac IDE files
 *.swp
