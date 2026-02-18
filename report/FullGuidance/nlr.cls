@@ -7,7 +7,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{NLR}
 % Define version and date once for reuse
-\newcommand{\NLRversion}{v2.1.2}
+\newcommand{\NLRversion}{v2.2.0}
 \newcommand{\NLRdate}{February 2026}
 \typeout{ }
 \typeout{NLR.cls -- \NLRversion, \NLRdate}
@@ -18,8 +18,10 @@
 % Create Options
 % -------------------------------------------------------------
 %% PDF properties
-\pdfinterwordspaceon
-\pdfminorversion=6
+% \pdfinterwordspaceon disabled -- causes text overlap with URW Helvetica (phv)
+% in pdfTeX 1.40.27 (TeX Live 2025), especially inside minipages and fancyhdr boxes.
+% TL2025's LaTeX Tagging Project provides better accessibility support.
+% \ifdefined\pdfinterwordspaceon\pdfinterwordspaceon\fi
 % for processing of conditional statements
 \RequirePackage{xifthen}
 % Mark as draft
@@ -101,19 +103,17 @@
   \monthname[\THEMONTH], \THEYEAR}
 % for multiple authors/affils
 \RequirePackage{authblk}
-% NAG: check for outdated packages
-\RequirePackage[l2tabu, orthodox]{nag}
 % GEOMETRY: set page size
-% \RequirePackage[head=0.125in,top=0.9in,bottom=1in,inner=1in,outer=1in,includefoot]{geometry}
-\RequirePackage[letterpaper, top=0.5in,bottom=1in,inner=1in,outer=1in,includefoot]{geometry}
-% MATHPTMX Times for roman text and math (family ptm)
-\RequirePackage{mathptmx}
+\RequirePackage[letterpaper, top=0.5in,bottom=1in,inner=1in,outer=1in,includefoot,headsep=6em]{geometry}
+% Times for roman text and math (newtx replaces obsolete mathptmx)
+\RequirePackage{newtxtext}
+\RequirePackage{newtxmath}
 % Helvetica for sans serif (family phv)
 \RequirePackage[scaled=0.83]{helvet}
 % Courier for typewriter font (family pcr)
 \RequirePackage{courier}
-% ams math
-\RequirePackage{amsfonts,amssymb,amsmath}
+% ams math (amsfonts/amssymb removed -- newtxmath provides all AMS symbols)
+\RequirePackage{amsmath}
 % gensymb. Required for degrees symbol
 \RequirePackage{gensymb}
 % acronyms
@@ -140,13 +140,19 @@
 % spacing
 \RequirePackage{setspace}
 \RequirePackage{parskip}
+% ragged2e, tocloft, tocbibind must load BEFORE biblatex-chicago.
+% biblatex loads nameref which redefines \@starttoc (breaks tocloft)
+% and \@arrayparboxrestore (breaks ragged2e minipage handling).
+\RequirePackage[newcommands,document]{ragged2e}
+\setlength{\RaggedRightRightskip}{0pt plus 3em}
+\RequirePackage[titles]{tocloft}
+\RequirePackage[nottoc, notlot, notlof]{tocbibind}
 % to-do notes
 \RequirePackage{todonotes}
 % code listings
 \RequirePackage{listings}
-\RequirePackage[utf8]{inputenc}
 \RequirePackage{etoolbox}
-\RequirePackage[]{titlesec}
+% titlesec removed -- incompatible with TeX Live 2025; appendix headings use native commands
 \RequirePackage[title,titletoc]{appendix}
 %% ----------------------------
 %% References section 
@@ -191,50 +197,31 @@
 % --------------------------------------------------------
 % Main Code
 % --------------------------------------------------------
-% NLR default is ragged right.
-% Load ragged2e so \justifying and environment justify are available.
-% Redefines \centering, \raggedleft, and \raggedright, and environments center
-% flushleft and flushright to use versions made by ragged2e. 
-% Sets default alignment to ragged right. 
-% To override, use the command \justifying or the environment justify.
-\RequirePackage[newcommands,document]{ragged2e}
-
-%This changes parindent to 0
-\setlength{\RaggedRightRightskip}{0pt plus 3em}
-
 
 % -------------------------------------------
 % Changes to TOC and list of figures/tables
 % -------------------------------------------
-% improved table of contents and list of figures/tables
-\RequirePackage{tocloft}
-% remove numbering on bibliography but still allow in TOC
-\RequirePackage[nottoc, notlot, notlof]{tocbibind}
+% (tocloft, tocbibind, ragged2e loaded earlier -- before biblatex)
 
 % add Figure before # and a period after
-\renewcommand{\cftfigfont}{\fontfamily{phv} Figure }
-\renewcommand{\cfttabfont}{\fontfamily{phv} Table }
+\renewcommand{\cftfigfont}{\sffamily Figure }
+\renewcommand{\cfttabfont}{\sffamily Table }
 \renewcommand{\cftfigaftersnum}{.}
 \renewcommand{\cfttabaftersnum}{.}
 
-% title font
-\renewcommand{\cfttoctitlefont}{\color{NLRblue} \raggedright  \fontsize{18}{6}\sffamily\bfseries}
-\renewcommand{\cftloftitlefont}{\color{NLRblue} \raggedright  \fontsize{18}{6}\sffamily\bfseries}
-\renewcommand{\cftlottitlefont}{\color{NLRblue} \raggedright  \fontsize{18}{6}\sffamily\bfseries}
-\renewcommand{\cftchapfont}{ \fontsize{10pt}{10pt}\sffamily\bfseries}
-\renewcommand{\cftsecfont}{ \fontsize{11pt}{11pt}}
-\renewcommand{\cftsubsecfont}{ \fontsize{11pt}{11pt}}
+% TOC entry fonts (title fonts handled by \@makeschapterhead with [titles] option)
+\renewcommand{\cftchapfont}{\fontsize{10}{12}\selectfont\sffamily\bfseries}
+\renewcommand{\cftsecfont}{\fontsize{11}{13}\selectfont}
+\renewcommand{\cftsubsecfont}{\fontsize{11}{13}\selectfont}
 
 % linespacing in the TOC
 \setlength\cftparskip{-2pt}
 \setlength\cftbeforechapskip{2pt}
 \setlength\cftbeforesecskip{2pt}
 \setlength\cftbeforesubsecskip{2pt}
-\setlength\cftaftertoctitleskip{-6pt}
-\setlength{\cftbeforetoctitleskip}{-6pt}
 
 % Rename the title of contents
-\addto{\captionsenglish}{\renewcommand*{\contentsname}{\fontsize{18}{18} Table of Contents}}
+\addto{\captionsenglish}{\renewcommand*{\contentsname}{Table of Contents}}
 % add dotfill in toc
 \renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
 
@@ -248,9 +235,6 @@
 \addtocontents{lot}{\protect\noaddvspace}
 \setlength{\cftbeforefigskip}{5pt}
 \setlength{\cftbeforetabskip}{5pt}
-\setlength{\cftaftertoctitleskip}{0pt}
-\setlength{\cftafterloftitleskip}{0pt}
-\setlength{\cftafterlottitleskip}{0pt}
 
 % -------------------------------------------
 % Changes to the chapter and section markings
@@ -260,10 +244,10 @@
 	\vspace*{-20\p@}%
 	{\color{NLRblue} \parindent \z@ \raggedright \normalfont \interlinepenalty\@M
 	\ifnum \c@secnumdepth >\m@ne
-		\fontfamily{phv} \fontsize{18}{6}\fontseries{b}\selectfont
+		\sffamily\bfseries\fontsize{18}{21}\selectfont
 		\thechapter \hspace*{1em}#1
 		\else
-		\fontfamily{phv} \fontsize{18}{6}\fontseries{b}\selectfont #1
+		\sffamily\bfseries\fontsize{18}{21}\selectfont #1
 	\fi
 	\par\nobreak
 	% \vspace*{0pt}
@@ -282,12 +266,12 @@
 	\@startsection{section}{1}{\z@}
 	{-3.25ex \@plus -1ex \@minus -.2ex}
 	{0.25ex \@plus .2ex}
-	{\color{NLRblue}\fontfamily{phv}\fontsize{14}{14}\fontseries{b}\selectfont}}
+	{\color{NLRblue}\sffamily\bfseries\fontsize{14}{17}\selectfont}}
 \renewcommand{\subsection}{%
 	\@startsection{subsection}{2}{\z@}
 	{-3.25ex \@plus -1ex \@minus -.2ex}
 	{0.25ex \@plus .2ex}
-	{\color{NLRblue}\sffamily\normalsize\bfseries\slshape}}
+	{\color{NLRblue}\sffamily\bfseries\slshape}}
 \renewcommand{\subsubsection}{%
 	\@startsection{subsubsection}{3}{\z@}
 	{-3.25ex \@plus -1ex \@minus -.2ex}
@@ -332,23 +316,21 @@
 	aboveskip=0pt}
 
 % number figures and tables continuously across chapters
-\RequirePackage{chngcntr}
+% chngcntr removed -- \counterwithout/\counterwithin are LaTeX kernel built-ins since 2018
 \counterwithout{figure}{chapter}
 \counterwithout{table}{chapter}
 \counterwithout{footnote}{chapter}
 
 \RequirePackage{footmisc}
-\renewcommand{\footnotelayout}{\fontsize{10pt}{10pt}}
+\renewcommand{\footnotelayout}{\fontsize{10}{12}\selectfont}
 \renewcommand{\footnoterule}{% Kerns avoid vertical space
   \kern -3pt                         % This -3 is negative
   \hrule width 0.3\textwidth height 0.4pt % of the sum of this 1
   \kern 10pt}                         % and this 2
-% \renewcommand{\thefootnote}{\fnsymbol{\fontsize{10pt}{10pt}footnote}}
 
 % Note that if we use the front matter / main matter, we have to change numbers
 % need to renew the front, main, and back matter commands
-\makeatletter
-	\newcommand{\frontmatter}{%
+\newcommand{\frontmatter}{%
 		\renewcommand\thechapter{\hspace{-1.65ex}}
 		\pagenumbering{roman} %
 		\setcounter{page}{3} %
@@ -369,7 +351,6 @@
 		\setlength\parskip{8pt}
 	}
 	\newcommand{\backmatter}{}
-\makeatother
 
 % deal with the appendix
 \renewcommand\appendix{\par
@@ -385,14 +366,19 @@
 	\renewcommand{\thefigure}{\thechapter-\arabic{figure}}
 	\renewcommand{\thetable}{\thechapter-\arabic{table}}
 	% footnote formatting
-	\renewcommand*{\thefootnote}{\fnsymbol{\fontsize{10pt}{10pt}footnote}}
+	\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
 }
 
 \ifthenelse{\boolean{IssingleAppendix}}{ % true
+	% --- Native chapter heading overrides for single appendix (no titlesec) ---
+	\newcommand{\NLR@appchapterhead@starred}[1]{%
+		\vspace*{-20\p@}%
+		{\color{NLRblue} \parindent \z@ \raggedright \normalfont \interlinepenalty\@M
+		\sffamily\bfseries\fontsize{18}{21}\selectfont
+		Appendix\hspace{11pt}#1
+		\par\nobreak}}
 	\AtBeginEnvironment{appendices}{
-		\titleformat{\chapter}{\fontfamily{phv}\fontsize{18}{0}\selectfont\bfseries}{\textcolor{NLRblue}
-		{Appendix}}{11pt}{\textcolor{NLRblue}}
-		\titlespacing*{\chapter}{0pt}{-20pt}{0pt}
+		\let\@makeschapterhead\NLR@appchapterhead@starred
 		% change chapter numbering to letters
 		\renewcommand{\thechapter}{\Alph{chapter}}
 		% counters should reset each chapter
@@ -408,10 +394,15 @@
     \addcontentsline{toc}{chapter}{{#1}}}
 	}
 	{% False
+	% --- Native chapter heading overrides for multiple appendices (no titlesec) ---
+	\newcommand{\NLR@appchapterhead@numbered}[1]{%
+		\vspace*{-20\p@}%
+		{\color{NLRblue} \parindent \z@ \raggedright \normalfont \interlinepenalty\@M
+		\sffamily\bfseries\fontsize{18}{21}\selectfont
+		Appendix \thechapter.\hspace{11pt}#1
+		\par\nobreak}}
 	\AtBeginEnvironment{appendices}{
-		\titleformat{\chapter}{\fontfamily{phv}\fontsize{18}{0}\selectfont\bfseries}{\textcolor{NLRblue}
-  		{Appendix \thechapter.}}{11pt}{\textcolor{NLRblue}}
-		\titlespacing*{\chapter}{0pt}{-20pt}{-6pt}
+		\let\@makechapterhead\NLR@appchapterhead@numbered
 		% change chapter numbering to letters
 		\renewcommand{\thechapter}{\Alph{chapter}}
 		% counters should reset each chapter
@@ -459,15 +450,13 @@
 	}
 
 
-% Enable tooltips
-\RequirePackage[linewidth = 0]{pdfcomment}
+% pdfcomment removed -- incompatible with TeX Live 2025 tagging changes
+% \RequirePackage[linewidth = 0]{pdfcomment}
 
 %% ----------------------------
 %% ACCESSIBILITY
 %% ----------------------------
-\ifthenelse{\boolean{IsTagged}}{% True
-	\RequirePackage[tagged,highstructure]{accessibility}
-}{}
+% accessibility package removed -- obsolete, superseded by LaTeX Tagging Project
 
 % need to add page number and availability information to every page, including new chapters.
 \RequirePackage{fancyhdr}
@@ -481,7 +470,7 @@
 	\fancypagestyle{NLR}{%
 	\fancyhf{}
 	\renewcommand{\headrulewidth}{0pt}
-	\fancyfoot[C]{\thepage\\\vspace{1em} \fontsize{10pt}{10pt}\sffamily \textcolor{lightgray}{This report is available at no cost from the National Laboratory of the Rockies (NLR) at http://www.nlr.gov/publications.}}
+	\fancyfoot[C]{\thepage\\\vspace{1em} \small\sffamily \textcolor{lightgray}{This report is available at no cost from the National Laboratory of the Rockies (NLR) at http://www.nlr.gov/publications.}}
 }
 	
 }
@@ -490,8 +479,8 @@
 \appto\mainmatter{\pagestyle{NLR}}                                        
 \appto\backmatter{\pagestyle{empty}}   
 
-% note that the first page of a chapter uses "plain", so we need to redefine that to match the "NLR" page style.
-% \let\ps@plain\ps@NLR
+% Ensure chapter opening pages also use the NLR footer (\chapter calls \thispagestyle{plain})
+\fancypagestyle{plain}[NLR]{}
 
 
 
@@ -499,11 +488,8 @@
 \RequirePackage{xstring}
 \RequirePackage{hyperref}
 
-\typeout{TEST LOCATION}
-\makeatletter
 \typeout{AB@authlist}
 \pdfstringdef\cleanlist{\AB@authlist}
-\makeatother
 \StrDel{\cleanlist}{1}[\cleanlist]
 \StrDel{\cleanlist}{2}[\cleanlist]
 \StrDel{\cleanlist}{3}[\cleanlist]
@@ -511,7 +497,6 @@
 \StrDel{\cleanlist}{5}[\cleanlist]
 
 %% add pdf title and authors
-\makeatletter
 \typeout{\cleanlist}
 \hypersetup{
 	final, 
@@ -531,29 +516,26 @@
 	bookmarksnumbered
 	% pdfauthor={\cleanlist}
 }
-\makeatother
 
 
 %% format of make title (title, authors, affils)
-\makeatletter
 	\renewcommand{\maketitle}{\bgroup\setlength{\parindent}{0pt}
 	\null
 	\vskip 2em%
 	\begin{flushright}
-		\righthyphenmin=62 % prevents hyphens in title page
-		\fontfamily{phv}
-		\textbf{\huge{\@title}}
+		{\sffamily\bfseries\fontsize{25}{30}\selectfont
+		\@title}%
 		\vskip 1.5em%
-		\large{\@author}
+		{\sffamily\fontsize{12}{14}\selectfont
+		\@author}%
 		\vskip 1em%
 	\end{flushright}
 	\egroup
 	}
-\makeatother
 
 %% THINGS WE NEED TO DO AT THE START OF THE DOCUMENT
 \AtBeginDocument{
-	\setlength{\headsep}{6em}
+	% headsep now set in \geometry options
 
 	% -------------------------------------
 	% hard-coded formatting for title page
