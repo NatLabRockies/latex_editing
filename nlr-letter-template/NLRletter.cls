@@ -1,13 +1,13 @@
 % NLR letter class file
 % Formal letter with NLR letterhead/logo
 % 05 September 2017
-% Nicholas Hamilton, nicholas.hamilton(at)nrel.gov
+% Nicholas Hamilton, nicholas.hamilton(at)nlr.gov
 
 % --- Class structure: identification part
 % ---
 \ProvidesClass{NLRletter}
 \typeout{ }
-\typeout{NLRletter.cls -- v1.2, December 2025}
+\typeout{NLRletter.cls -- v2.0, April 2026}
 \typeout{Formats letter documents according to the NLR style guide}
 \typeout{For support, visit the NLR LaTeX teams page.}
 \typeout{ }
@@ -20,8 +20,10 @@
 % -------------------------------------------------------------
 % Create Options
 % -------------------------------------------------------------
-% PDF properties
-\pdfinterwordspaceon
+%% PDF properties
+% \pdfinterwordspaceon disabled -- causes text overlap with URW Helvetica (phv)
+% in pdfTeX 1.40.27 (TeX Live 2025), especially inside minipages and fancyhdr boxes.
+% TL2025's LaTeX Tagging Project provides better accessibility support.
 %\pdfminorversion=8
 \RequirePackage{pdf14}
 
@@ -93,6 +95,7 @@
 \RequirePackage{color}
 \RequirePackage{xcolor}
 \definecolor{nlrblue}{RGB}{0, 121, 193}
+\newcommand{\nlrblue}[1]{{\textcolor{nlrblue}{#1}}}
 
 % set languages
 \RequirePackage[american]{babel}
@@ -118,7 +121,7 @@ natbib=true,bibencoding=inputenc,sorting=nyt,doi=true, maxbibnames = 10, maxcite
 \DefineBibliographyStrings{american}{%
   bibliography = {References},
 }
-% see NREL formatting guidelines at https://communications_resources.nrel.gov/style_guide/references
+% see NLR formatting guidelines at https://communications_resources.nlr.gov/style_guide/references
 % technical reports
 \DeclareBibliographyAlias{techreport}{book}
 % make one type of publication look like another
@@ -136,7 +139,7 @@ natbib=true,bibencoding=inputenc,sorting=nyt,doi=true, maxbibnames = 10, maxcite
 % Main Code
 % --------------
 
-% NREL default is ragged right.
+% NLR default is ragged right.
 % Load ragged2e so \justifying and environment justify are available.
 % Redefines \centering, \raggedleft, and \raggedright, and environments center flushleft and flushright to use versions made by ragged2e. Sets default alignment to ragged right. To override, use the command \justifying or the environment justify.
 \RequirePackage[newcommands,document]{ragged2e}
@@ -198,42 +201,29 @@ natbib=true,bibencoding=inputenc,sorting=nyt,doi=true, maxbibnames = 10, maxcite
 	\RequirePackage[unicode, final, pdfa, linktocpage, colorlinks, linktoc=all, linkcolor=blue, citecolor=blue, menucolor=blue, urlcolor=blue, pdfborder={0 0 0},unicode, pdflang={en-US}]{hyperref}
 	}
 
+% Horizontal rule command with thickness parameter
+\makeatletter
+\newcommand{\vhrulefill}[1]{\leavevmode\leaders\hrule\@height#1\hfill \kern\z@}
+\makeatother
 
 %% THINGS WE NEED TO DO AT THE START OF THE DOCUMENT
 \AtBeginDocument{
-    %----------------------------------------------------------------------------------------
+    %------------------------
     %	DOCUMENT STRUCTURE
-    %----------------------------------------------------------------------------------------
+    %------------------------
 
     \pagestyle{empty} % Suppress headers and footers
     
     \setlength\parindent{0cm} % Paragraph indentation
     \setlength\parskip{1em}
-    
-    % Create a new command for the horizontal rule in the document which allows thickness specification
-    \makeatletter
-    \newcommand{\vhrulefill}[1]{\leavevmode\leaders\hrule\@height#1\hfill \kern\z@}
-    \makeatother
-    
-%    %----------------------------------------------------------------------------------------
-%    %	DEFINE CUSTOM COMMANDS
-%    %----------------------------------------------------------------------------------------
-%    
-\newcommand{\nlrblue}[1]{{\textcolor{nlrblue}{#1}}}
 
-%    \newcommand{\logo}[1]{\renewcommand{\logo}{#1}}
-%    
-%    \newcommand{\Who}[1]{\renewcommand{\Who}{#1}}
-%    \newcommand{\Title}[1]{\renewcommand{\Title}{#1}}
-%    
-%    \newcommand{\headerlineone}[1]{\renewcommand{\headerlineone}{#1}}
-%    \newcommand{\headerlinetwo}[1]{\renewcommand{\headerlinetwo}{#1}}
-%    
-%    \newcommand{\authordetails}[1]{\renewcommand{\authordetails}{#1}}
-    
-    %----------------------------------------------------------------------------------------
+%    %------------------------
+%    %	DEFINE CUSTOM COMMANDS
+%    %------------------------
+
+    %------------------------
     %	AUTHOR DETAILS STRUCTURE
-    %----------------------------------------------------------------------------------------
+    %------------------------
     
     \newcommand{\authordetailsblock}{
 %    	\hspace{\fill} % Move the author details to the far right
@@ -244,27 +234,27 @@ natbib=true,bibencoding=inputenc,sorting=nyt,doi=true, maxbibnames = 10, maxcite
     	}
     }
     
-    %----------------------------------------------------------------------------------------
+    %------------------------
     %	HEADER STRUCTURE
-    %----------------------------------------------------------------------------------------
+    %------------------------
     
     \address{
     	\includegraphics[width=2in]{\logo} % Include the logo of author institution
     	\hspace{0.82\textwidth} % Position of the institution logo, increase to move left, decrease to move right
-    	\vskip -0.1\textheight~\\ % Position of the large header text in relation to the institution logo, increase to move down, decrease to move up
+    	\vskip -0.05\textheight~\\ % Position of the large header text in relation to the institution logo, increase to move down, decrease to move up
     	\Large\hspace{0.2\textwidth}\headerlineone\hfill ~\\[0.006\textheight] % First line of institution name, adjust hspace if your logo is wide
     	\hspace{0.2\textwidth}\headerlinetwo\hfill \normalsize % Second line of institution name, adjust hspace if your logo is wide
     	\makebox[0ex][r]{\textbf{\nlrblue{\Who\Title}}}\hspace{0.01\textwidth} % Print author name and title with a little whitespace to the right
-    	~\\[-0.01\textheight] % Reduce the whitespace above the horizontal rule
-    	\hspace{0cm}\vhrulefill{1pt} \\ % Horizontal rule, adjust hspace if your logo is wide and \vhrulefill for the thickness of the rule
+    	~\\%[-0.01\textheight] % Reduce the whitespace above the horizontal rule
+    	% \hspace{0cm}\vhrulefill{1pt} \\ % Horizontal rule, adjust hspace if your logo is wide and \vhrulefill for the thickness of the rule
     	\authordetailsblock % Include the letter author's details on the right side of the page under the horizontal rule
     	\hspace{-0.25\textwidth} % Horizontal position of the author details block, increase to move left, decrease to move right
-    	\vspace{-0.1\textheight} % Move the date and letter content up for a more compact look
+    	\vspace{-0.05\textheight} % Move the date and letter content up for a more compact look
     }
     
-    %----------------------------------------------------------------------------------------
+    %------------------------
     %	COMPOSE THE ENTIRE HEADER
-    %----------------------------------------------------------------------------------------
+    %------------------------
     
     \renewcommand{\opening}[1]{
     	{\centering\fromaddress\vspace{0.05\textheight} \\ % Print the header and from address here, add whitespace to move date down
@@ -278,20 +268,22 @@ natbib=true,bibencoding=inputenc,sorting=nyt,doi=true, maxbibnames = 10, maxcite
     \fancyhf{}
     \rhead{}
     \lhead{}
-    % \lfoot{\includegraphics{NLR_footer.png}}
-    \lfoot{\footnotesize\textbf{\sffamily
-    National Laboratory of the Rockies is a national\\
-    laboratory of the U.S. Department of Energy\\
-    Office of Critical Minerals and Energy Innovation\\
-    Operated under Contract No. DE-AC36-08GO283
-    }}}
+    \lfoot{\footnotesize \sffamily 15013 Denver West Parkway\\
+	Golden, CO 80401 \\ 
+	303-275-3000}
+
+    \rfoot{\parbox[t]{0.55\textwidth}{\raggedright\footnotesize \sffamily 
+    The National Laboratory of the Rockies is a national laboratory of 
+	the U.S. Department of Energy, Office of Critical Minerals and Energy
+	Innovation, operated under Contract No. DE-AC36-08GO28308
+    }\hspace{1cm}}
     
     \renewcommand{\headrulewidth}{0pt}
     \renewcommand{\footrulewidth}{0pt}
     
-    %----------------------------------------------------------------------------------------
+    %------------------------
     %	SIGNATURE STRUCTURE
-    %----------------------------------------------------------------------------------------
+    %------------------------
     
     \signature{\Who\Title} % The signature is a combination of the author's name and title
     
@@ -307,7 +299,9 @@ natbib=true,bibencoding=inputenc,sorting=nyt,doi=true, maxbibnames = 10, maxcite
 		\newline% Whitespace between the closing text and author's name for a physical signature
     		\fromsig % Prints the value of \signature{}, i.e. author name and title
 	}
-}
+
+} 
+}% end \AtBeginDocument
 
 %% end of file
 
