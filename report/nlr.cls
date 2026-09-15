@@ -5,12 +5,12 @@
 % Identification Part
 % -------------------------------------------------------------
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{NLR}
+\ProvidesClass{nlr}
 % Define version and date once for reuse
-\newcommand{\NLRversion}{v2.2.0}
-\newcommand{\NLRdate}{February 2026}
+\newcommand{\NLRversion}{v2.2.1}
+\newcommand{\NLRdate}{September 2026}
 \typeout{ }
-\typeout{NLR.cls -- \NLRversion, \NLRdate}
+\typeout{nlr.cls -- \NLRversion, \NLRdate}
 \typeout{Formats documents according to the NLR style guide}
 \typeout{ }
 
@@ -161,11 +161,13 @@
 \usepackage[authordate,
             backend=biber,
 			natbib,
+			noibid,
 			bibencoding=inputenc,
 			sorting=nyt,
 			doi=true, 
 			maxbibnames=10,
 			giveninits=true, 
+			uniquename=mininit,
 			maxcitenames=3,
             ]{biblatex-chicago}
 % change the name of the bib 
